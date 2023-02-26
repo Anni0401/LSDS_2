@@ -1,4 +1,3 @@
-package spark;
 package upf.edu;
 
 import org.apache.spark.api.java.JavaPairRDD;
@@ -11,26 +10,31 @@ import upf.edu.model.SimplifiedTweet;
 import java.util.Arrays;
 import java.util.Optional;
 
-public class FilterLanguage {
-    
-    public static void main(Strings[] args){
+public class TwitterLanguageFilterApp {
 
+    public static void main(String[] args) {
         List<String> argsList = Arrays.asList(args);
         String language = argsList.get(0);
         String outputFile = argsList.get(1);
-        String bucket = argsList.get(2);
+        String input = argsList.get(2);
 
 
-        SparkConf conf = new SparkConf().setAppName("Twitter Filter");
+        SparkConf conf = new SparkConf().setAppName("Twitter Language Filter App");
         JavaSparkContext sparkContext = new JavaSparkContext(conf);
 
         JavaRDD<String> sentences = sparkContext.textFile(input);
-
-        JavaPairRDD<String, Integer> tweets = sentences
-            .flatMap(s -> Arrays.asList(s.split("[ ]")).iterator())
-            .filter(tweet -> myFunction(tweet.getLanguage(tweet).equals(language)))
-            .map(SimplifiedTweet::ToString);
+        JavaRDD<String> tweets = sentences
+                .flatMap(s -> Arrays.asList(s.split("\n")).iterator())
+                .filter(tweet -> myFunction(tweet) != null)
+                .map(TwitterLanguageFilterApp::myFunction)
+                .filter(tweet -> tweet.getLanguage().equals(language))
+                .map(SimplifiedTweet::toString);
 
         tweets.saveAsTextFile(outputFile);
-    }
+
+    }
+    public static SimplifiedTweet myFunction (String tweet){
+        Optional<SimplifiedTweet> otweet = SimplifiedTweet.fromJson(tweet);
+        return otweet.orElse(null);
+    }
 }
