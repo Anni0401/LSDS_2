@@ -9,6 +9,7 @@ import upf.edu.model.SimplifiedTweet;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.List; 
 
 public class TwitterLanguageFilterApp {
 
