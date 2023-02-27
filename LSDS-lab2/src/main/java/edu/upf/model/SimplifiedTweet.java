@@ -1,4 +1,4 @@
-package edu.upf.parser;
+package edu.upf.model;
 
 import java.util.Optional;
 import com.google.gson.Gson;

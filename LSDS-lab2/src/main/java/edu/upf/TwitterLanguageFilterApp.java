@@ -1,11 +1,11 @@
-package upf.edu;
+package edu.upf;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.SparkConf;
 import scala.Tuple2;
-import upf.edu.model.SimplifiedTweet;
+import edu.upf.model.SimplifiedTweet;
 
 import java.util.Arrays;
 import java.util.Optional;

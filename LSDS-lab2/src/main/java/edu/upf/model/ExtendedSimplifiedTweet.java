@@ -1,4 +1,4 @@
-package edu.upf.parser;
+package edu.upf.model;
 
 import java.io.Serializable;
 import java.util.Optional;
@@ -77,7 +77,8 @@ public class ExtendedSimplifiedTweet implements Serializable{
       SimplifiedTweet tweet = new SimplifiedTweet(tweetId, text, userId, userName, language, timestampMs);
       Optional<SimplifiedTweet> tweetOutput = Optional.of(tweet);
     
-      return tweetOutput;
+      //return tweetOutput;
+      return Optional.empty();
 
     }else {
       return Optional.empty();
