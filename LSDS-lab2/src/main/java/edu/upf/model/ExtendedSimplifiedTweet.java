@@ -21,8 +21,8 @@ public class ExtendedSimplifiedTweet implements Serializable{
   private final long followersCount;
   private final String language;          // the language of a tweet ('lang')
   private final boolean isRetweeted;
-  private final Long retweetedUserId;
-  private final Long retweetedTweetId;
+  private final long retweetedUserId;
+  private final long retweetedTweetId;
   private final long timestampMs;		  // seconduserIds from epoch ('timestamp_ms')
 
   public ExtendedSimplifiedTweet(long tweetId, String text, long userId, String userName, long followersCount, String language, boolean isRetweeted, long retweetedUserId, long retweetedTweetId, long timestampMs) {
@@ -73,12 +73,32 @@ public class ExtendedSimplifiedTweet implements Serializable{
     JsonElement userNameEle = jo.getAsJsonObject("user").get("name");
     String userName = (String) userNameEle.getAsString();
 
+    JsonElement userFollowersEle = jo.getAsJsonObject("user").get("followers_count");
+    long followersCount = (long) userFollowersEle.getAsLong();
+
+    JsonElement retweetStatusEle = jo.get("retweeted_status");
+    String retweet_status = (String) retweetStatusEle.getAsString();
+    boolean isRetweeted = retweet_status != null;
+
+    //if (isRetweeted){
+      JsonElement userIdREle = jo.getAsJsonObject("retweeted_status").getAsJsonObject("user").get("id");
+      long retweetedUserId = (long) userIdREle.getAsLong();
+
+      JsonElement IdREle = jo.getAsJsonObject("retweeted_status").get("id");
+      long retweetedTweetId = (long) IdREle.getAsLong();
+    //}else{
+      //long retweetedUserId = 0;
+      //long retweetedTweetId = 0;
+
+    //}
+
+
     if (text != null && tweetId != 0 && language != null && timestampMs != 0 && userId != 0 && userName != null){
-      SimplifiedTweet tweet = new SimplifiedTweet(tweetId, text, userId, userName, language, timestampMs);
-      Optional<SimplifiedTweet> tweetOutput = Optional.of(tweet);
+      ExtendedSimplifiedTweet tweet = new ExtendedSimplifiedTweet(tweetId, text, userId, userName, followersCount, language, isRetweeted, retweetedUserId, retweetedTweetId, timestampMs);
+      Optional<ExtendedSimplifiedTweet> tweetOutput = Optional.of(tweet);
     
-      //return tweetOutput;
-      return Optional.empty();
+      return tweetOutput;
+      
 
     }else {
       return Optional.empty();
