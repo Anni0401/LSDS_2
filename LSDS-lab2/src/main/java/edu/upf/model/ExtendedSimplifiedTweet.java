@@ -117,4 +117,19 @@ public class ExtendedSimplifiedTweet implements Serializable{
     
     return new Gson().toJson(this);
   }
+  public boolean isRetweeted(){
+    return this.isRetweeted;
+  }
+  public String getText(){
+    return this.text;
+  }
+
+  public long getRetweetedUserId(){
+    return this.retweetedUserId;
+  }
+
+  public long getUserId(){
+    return this.userId;
+  }
+  
 }
